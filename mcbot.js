@@ -12,39 +12,39 @@ var url = 'https://api.mcsrvstat.us/2/' + mcIP;
 
 
 function update() {
-    request(url, function(err, response, body) {
-      if(err) {
-          console.log(err);
-          //return message.reply('Error getting Minecraft server status...');
+  request(url, function(err, response, body) {
+    if(err) {
+        console.log(err);
+        //return message.reply('Error getting Minecraft server status...');
+    }
+
+    body = JSON.parse(body);
+    var status = 'Server offline';
+    console.log(body.motd);
+
+    if(body.online) {
+          //set status to online if True
+          client.user.setStatus('online')
+          //.then(console.log)
+          .catch(console.error);
+
+          if(body.players.online) {
+              status = ' ' + body.players.online + '  of  ' + body.players.max;
+            } else {
+              status = ' 0  of  ' + body.players.max;
       }
-
-      body = JSON.parse(body);
-      var status = 'Server offline';
-      console.log(body.motd);
-
-      if(body.online) {
-            //set status to online if True
-            client.user.setStatus('online')
-            //.then(console.log)
-            .catch(console.error);
-
-            if(body.players.online) {
-                status = ' ' + body.players.online + '  of  ' + body.players.max;
-              } else {
-                status = ' 0  of  ' + body.players.max;
-        }
-      } else {
+    } else {
         client.user.setStatus('dnd')
         //.then(console.log)
         .catch(console.error);
-
       }
-      client.user.setActivity(status, { type: 'PLAYING' })
-      .then(presence => console.log(status))
-      .catch(console.error);
-  });
 
+    client.user.setActivity(status, { type: 'PLAYING' })
+    .then(presence => console.log(status))
+    .catch(console.error);
+  });
 }
+
 client.on("ready", () => {
   console.log("I am ready!");
   client.setInterval(update,30000);
