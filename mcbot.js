@@ -20,7 +20,7 @@ function update() {
 
     body = JSON.parse(body);
     var status = 'Server offline';
-    console.log(body.motd);
+    console.log(body.motd.clean);
 
     if(body.online) {
           //set status to online if True
