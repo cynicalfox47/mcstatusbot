@@ -1,5 +1,5 @@
 # mcstatusbot
-### Discord bot for server status
+### Linux variant of the original Discord bot for showing server statuses
 
 :warning: For settings, please edit `config.json`. 
 
